@@ -75,7 +75,6 @@ export const updateUser = async (req: Request, res: Response): Promise<void> => 
         let dataToUpdate: any = { ...req.body }
 
         if (password) {
-            //Si pone una contraseña nueva, la hasheamos y se la ponemos
             const hashedPassword = await hashPassword(password)
             dataToUpdate.password = hashedPassword
         }

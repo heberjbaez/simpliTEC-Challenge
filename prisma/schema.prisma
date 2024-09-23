@@ -18,3 +18,43 @@ model User {
   email     String  @unique
   password  String
 }
+
+model Dealer {
+  id        Int       @id @default(autoincrement())
+  name      String
+  vehicles  Vehicle[]
+  accessories Accessory[]
+  posts     Post[]
+}
+
+model Vehicle {
+  id      Int    @id @default(autoincrement())
+  model   String
+  dealer  Dealer @relation(fields: [dealerId], references: [id])
+  dealerId Int
+}
+
+model Accessory {
+  id       Int    @id @default(autoincrement())
+  name     String
+  dealer   Dealer @relation(fields: [dealerId], references: [id])
+  dealerId Int
+}
+
+model Post {
+  id       Int    @id @default(autoincrement())
+  title    String
+  content  String
+  dealer   Dealer @relation(fields: [dealerId], references: [id])
+  dealerId Int
+
+  leads     Lead[]
+}
+
+model Lead {
+  id        Int    @id @default(autoincrement())
+  email     String
+  lastName  String
+  postId    Int
+  post      Post   @relation(fields: [postId], references: [id])
+}

@@ -4,7 +4,7 @@ import prisma from "../models/user"
 import { generateToken } from "../services/auth.service";
 
 export const register = async (req: Request, res: Response): Promise<void> => {
-    //envia el email y la contraseña para registrarse como req
+
     const { email, password } = req.body;
     try {
         if (!email) {
@@ -15,11 +15,11 @@ export const register = async (req: Request, res: Response): Promise<void> => {
             res.status(400).json({ error: "El password debe ser obligatorio" })
             return
         }
-        //hashea el password para enviarlo hasheado en la base de datos
+
         const hashedPassword = await hashPassword(password);
         console.log(hashedPassword)
 
-        //Crea un usuario con el password hasheado y lo guarda en la base de datos
+
         const user = await prisma.create({
             data: {
                 email,
@@ -27,7 +27,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
             }
         })
 
-        //Luego de creado ese usuario genera un token
+
         const token = generateToken(user)
         res.status(201).json({ token })
 
